@@ -17,7 +17,7 @@ import {FormsModule} from '@angular/forms';
 import { HeaderComponent } from './naviogation/header/header.component';
 import { SidenavListComponent } from './naviogation/sidenav-list/sidenav-list.component';
 import { StopTrainingComponent } from './training/stop-training/stop-training.component';
-import {AuthService} from './auth/auth.service';
+import {MatSortModule} from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -39,10 +39,9 @@ import {AuthService} from './auth/auth.service';
     MaterialModule,
     AppRoutingModule,
     FlexLayoutModule,
-    FormsModule
+    FormsModule,
+    MatSortModule
   ],
-  providers: [AuthService],
   bootstrap: [AppComponent],
-  // entryComponents: [StopTrainingComponent]
 })
 export class AppModule { }
