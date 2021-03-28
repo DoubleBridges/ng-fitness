@@ -18,6 +18,7 @@ import { HeaderComponent } from './naviogation/header/header.component';
 import { SidenavListComponent } from './naviogation/sidenav-list/sidenav-list.component';
 import { StopTrainingComponent } from './training/stop-training/stop-training.component';
 import {MatSortModule} from '@angular/material/sort';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import {MatSortModule} from '@angular/material/sort';
     AppRoutingModule,
     FlexLayoutModule,
     FormsModule,
-    MatSortModule
+    MatSortModule,
+    MatPaginatorModule
   ],
   bootstrap: [AppComponent],
 })
