@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ng-fitness';
+  openSideNav = false;
+
+  toggleSideNav(): void {
+    this.openSideNav = !this.openSideNav;
+  }
 }
