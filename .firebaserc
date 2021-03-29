@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "ng-fitness-e6de3": {
+      "hosting": {
+        "ng-fitness": [
+          "ng-fitness-e6de3"
+        ]
+      }
+    }
+  }
+}

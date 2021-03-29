@@ -19,6 +19,9 @@ import { SidenavListComponent } from './naviogation/sidenav-list/sidenav-list.co
 import { StopTrainingComponent } from './training/stop-training/stop-training.component';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {environment} from '../environments/environment';
+import {AngularFireModule} from '@angular/fire';
+import {AngularFirestoreModule} from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [
@@ -42,7 +45,9 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     FlexLayoutModule,
     FormsModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
   ],
   bootstrap: [AppComponent],
 })
