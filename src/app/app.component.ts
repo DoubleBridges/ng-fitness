@@ -8,7 +8,6 @@ import {AuthService} from './auth/auth.service';
 })
 export class AppComponent implements OnInit {
   title = 'ng-fitness';
-  openSideNav = false;
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {

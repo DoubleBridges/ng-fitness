@@ -12,7 +12,10 @@ import { SidenavListComponent } from './naviogation/sidenav-list/sidenav-list.co
 import {environment} from '../environments/environment';
 import {AngularFireModule} from '@angular/fire';
 import {AuthModule} from './auth/auth.module';
+import { StoreModule } from '@ngrx/store';
 import {AngularFireStorageModule} from '@angular/fire/storage';
+import {appReducer} from './app.reducer';
+import {SharedModule} from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,9 @@ import {AngularFireStorageModule} from '@angular/fire/storage';
     FlexLayoutModule,
     AngularFireModule.initializeApp(environment.firebase),
     AuthModule,
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    StoreModule.forRoot({ui: appReducer}),
+    SharedModule
   ],
   bootstrap: [AppComponent],
 })

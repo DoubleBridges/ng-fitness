@@ -6,6 +6,8 @@ import {Router} from '@angular/router';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {TrainingService} from '../training/training.service';
 import {UiService} from '../shared/ui.service';
+import {Store} from '@ngrx/store';
+import * as fromApp from '../app.reducer';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +21,8 @@ export class AuthService {
     private router: Router,
     private afAuth: AngularFireAuth,
     private trainingService: TrainingService,
-    private uiService: UiService) {
+    private uiService: UiService,
+    private store: Store<{ui: fromApp.State}>) {
   }
 
   initAuthListener(): void {
@@ -30,22 +33,27 @@ export class AuthService {
   }
 
   registerUser(authData: AuthData): void {
-    this.uiService.loadingStateChanged.next(true);
+    // this.uiService.loadingStateChanged.next(true);
+    this.store.dispatch({type: 'START_LOADING'});
     this.afAuth.createUserWithEmailAndPassword(authData.email, authData.password)
       .then(() => this.isAuthenticated = true)
       .catch(err => {
         this.uiService.showSnackBar(err.message, null, 3000);
-        this.uiService.loadingStateChanged.next(false);
+        // this.uiService.loadingStateChanged.next(false);
+        this.store.dispatch({type: 'STOP_LOADING'});
       });
+
   }
 
   login(authData: AuthData): void {
-    this.uiService.loadingStateChanged.next(true);
+    // this.uiService.loadingStateChanged.next(true);
+    this.store.dispatch({type: 'START_LOADING'});
+
     this.afAuth.signInWithEmailAndPassword(authData.email, authData.password)
       .then(() => this.isAuthenticated = true)
       .catch(err => {
         this.uiService.showSnackBar(err.message, null, 3000);
-        this.uiService.loadingStateChanged.next(false);
+        this.store.dispatch({type: 'STOP_LOADING'});
       });
   }
 
@@ -54,7 +62,7 @@ export class AuthService {
   }
 
   private unauthorizedRedirect(): void {
-    this.uiService.loadingStateChanged.next(false);
+    this.store.dispatch({type: 'STOP_LOADING'});
     this.trainingService.cancelSubscriptions();
     this.authChange.next(false);
     this.router.navigate(['/login']).then(() => this.isAuthenticated = false);
@@ -65,7 +73,7 @@ export class AuthService {
   }
 
   private authorizedRedirect(): void {
-    this.uiService.loadingStateChanged.next(false);
+    this.store.dispatch({type: 'STOP_LOADING'});
     this.isAuthenticated = true;
     this.authChange.next(true);
     this.router.navigate(['/training']).then(() => null);
