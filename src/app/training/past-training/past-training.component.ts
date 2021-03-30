@@ -39,6 +39,7 @@ export class PastTrainingComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.exerciseChangedSubscription.unsubscribe();
+    // tslint:disable-next-line:no-unused-expression
+    !!this.exerciseChangedSubscription && this.exerciseChangedSubscription.unsubscribe();
   }
 }

@@ -40,11 +40,12 @@
       >
       <mat-datepicker-toggle
         matSuffix
-        [for]="picker"></mat-datepicker-toggle>
+        [for]="$any(picker)"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
     <mat-checkbox ngModel name="agree" required>Agree to Terms and Conditions</mat-checkbox>
-    <button mat-raised-button color="primary" type="submit" [disabled]="f.invalid">Submit</button>
+    <button *ngIf="!isLoading" mat-raised-button color="primary" type="submit" [disabled]="f.invalid">Submit</button>
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
   </form>
 </section>
 
