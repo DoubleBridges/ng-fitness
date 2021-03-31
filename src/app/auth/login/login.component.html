@@ -26,7 +26,7 @@
       >
       <mat-error *ngIf="pwInput.hasError('required')">Password is required</mat-error>
     </mat-form-field>
-    <button *ngIf="!isLoading" mat-raised-button color="primary" type="submit" [disabled]="f.invalid">Submit</button>
-    <mat-spinner *ngIf="isLoading"></mat-spinner>
+    <button *ngIf="!(isLoading$ | async)" mat-raised-button color="primary" type="submit" [disabled]="f.invalid">Submit</button>
+    <mat-spinner *ngIf="(isLoading$ | async)"></mat-spinner>
   </form>
 </section>
