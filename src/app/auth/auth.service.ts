@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {Subject} from 'rxjs';
 
 import {AuthData} from './auth-data.model';
 import {Router} from '@angular/router';
@@ -9,14 +8,13 @@ import {UiService} from '../shared/ui.service';
 import {Store} from '@ngrx/store';
 import * as fromRoot from '../app.reducer';
 import * as UI from '../shared/ui.actions';
+import * as Auth from '../auth/auth.actions';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class AuthService {
-  authChange = new Subject<boolean>();
-  private isAuthenticated: boolean;
 
   constructor(
     private router: Router,
@@ -27,16 +25,16 @@ export class AuthService {
   }
 
   initAuthListener(): void {
-    this.afAuth.authState.subscribe(user => {
+    this.afAuth.authState.subscribe(user =>
       user ? this.authorizedRedirect()
-        : this.unauthorizedRedirect();
-    });
+        : this.unauthorizedRedirect()
+    );
   }
 
   registerUser(authData: AuthData): void {
     this.store.dispatch(new UI.StartLoading());
     this.afAuth.createUserWithEmailAndPassword(authData.email, authData.password)
-      .then(() => this.isAuthenticated = true)
+      .then(() => this.authorizedRedirect())
       .catch(err => {
         this.uiService.showSnackBar(err.message, null, 3000);
         this.store.dispatch(new UI.StopLoading());
@@ -48,7 +46,7 @@ export class AuthService {
     this.store.dispatch(new UI.StartLoading());
 
     this.afAuth.signInWithEmailAndPassword(authData.email, authData.password)
-      .then(() => this.isAuthenticated = true)
+      .then(() => this.authorizedRedirect())
       .catch(err => {
         this.uiService.showSnackBar(err.message, null, 3000);
         this.store.dispatch(new UI.StopLoading());
@@ -56,24 +54,19 @@ export class AuthService {
   }
 
   logout(): void {
-    this.afAuth.signOut().then(() => null);
+    this.store.dispatch(new Auth.SetUnauthenticated());
+    this.afAuth.signOut().then(() => this.unauthorizedRedirect());
   }
 
   private unauthorizedRedirect(): void {
     this.store.dispatch(new UI.StopLoading());
     this.trainingService.cancelSubscriptions();
-    this.authChange.next(false);
-    this.router.navigate(['/login']).then(() => this.isAuthenticated = false);
-  }
-
-  isAuth(): boolean {
-    return this.isAuthenticated;
+    this.router.navigate(['/login']).then(() => this.store.dispatch(new Auth.SetUnauthenticated()));
   }
 
   private authorizedRedirect(): void {
+    this.store.dispatch(new Auth.SetAuthenticated());
     this.store.dispatch(new UI.StopLoading());
-    this.isAuthenticated = true;
-    this.authChange.next(true);
     this.router.navigate(['/training']).then(() => null);
   }
 }

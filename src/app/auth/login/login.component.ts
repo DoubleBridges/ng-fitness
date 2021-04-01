@@ -23,7 +23,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading$ = this.store.select(fromRoot.getIsLoading);
-    this.store.subscribe(data => console.log(data));
   }
 
   onSubmit(form: NgForm): void {
