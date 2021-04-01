@@ -4,7 +4,7 @@ import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 
 import {AuthService} from './auth.service';
-import * as fromRoot from './auth.reducer';
+import * as fromRoot from './authReducer';
 import {take} from 'rxjs/operators';
 
 
