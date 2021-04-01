@@ -1,4 +1,6 @@
 import { NgModule } from '@angular/core';
+import {StoreModule} from '@ngrx/store';
+
 import {TrainingComponent} from './training.component';
 import {CurrentTrainingComponent} from './current-training/current-training.component';
 import {NewTrainingComponent} from './new-training/new-training.component';
@@ -9,6 +11,7 @@ import {StopTrainingComponent} from './stop-training/stop-training.component';
 import {AngularFireModule} from '@angular/fire';
 import {SharedModule} from '../shared/shared.module';
 import {TrainingRoutingModule} from './training-routing.module';
+import {trainingReducer} from './training.reducer';
 
 
 
@@ -25,7 +28,8 @@ import {TrainingRoutingModule} from './training-routing.module';
     MatPaginatorModule,
     AngularFireModule,
     SharedModule,
-    TrainingRoutingModule
+    TrainingRoutingModule,
+    StoreModule.forFeature('training', trainingReducer)
   ]
 })
 export class TrainingModule { }
